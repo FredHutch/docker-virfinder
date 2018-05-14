@@ -14,5 +14,12 @@ RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; 
 
 RUN mkdir /scratch
 
-ADD data/VirFinder_1.1.tar.gz /usr/local/
-RUN R CMD INSTALL /usr/local/VirFinder
+RUN mkdir /usr/local/virfinder
+ADD data/VirFinder_1.1.tar.gz /usr/local/virfinder/
+RUN R CMD INSTALL /usr/local/virfinder/VirFinder
+
+ADD run_virfinder.Rscript /usr/local/bin/
+
+ADD data/LiverCirrhosis_2657Contigs.fasta /usr/local/virfinder/
+ADD test.bats /usr/local/virfinder/
+RUN bats /usr/local/virfinder/
